@@ -77,14 +77,14 @@ class PlanController extends Controller
             return response()->json(['error' => 'User not authenticated.'], 401);
         }
 
-        $plans = Plan::where('user_id', $user->id)->get();
+        $allPlans = Plan::where('user_id', $user->id)->get();
 
-        if ($plans->isEmpty()) {
+        if ($allPlans->isEmpty()) {
             return response()->json(['error' => 'No plans available to export.'], 400);
         }
 
-        $plans_subjects_grouped_by_semester = $plans->groupBy('semester')->map(function ($semester) {
-            $formatted_semester = $semester->map(function ($plan) {
+        $allPlansGroupedBySemester = $allPlans->groupBy('semester')->map(function ($semester) {
+            $formattedSemester = $semester->map(function ($plan) {
                 return [
                     'name' => $plan->subject->name,
                     'code' => $plan->subject->code,
@@ -92,22 +92,23 @@ class PlanController extends Controller
                     'work_credits' => $plan->subject->work_credits,
                 ];
             });
-            $formatted_semester['total_credits'] = $formatted_semester->sum('lecture_credits') + $formatted_semester->sum('work_credits');
-            return $formatted_semester;
+            $formattedSemester['total_credits'] = $formattedSemester->sum('lecture_credits') + $formattedSemester->sum('work_credits');
+            $formattedSemester['completed'] = $semester[0]->completed;
+            return $formattedSemester;
         });
 
-        $semesterCount = $plans_subjects_grouped_by_semester->count();
-        $half = max(1, intval($semesterCount / 2));
-        $chunks = $plans_subjects_grouped_by_semester->sortKeys()->chunk($half)->values();
-
-        $completed_semesters = $chunks->get(0, collect());
-        $planned_semesters   = $chunks->get(1, collect());
+        $completedSemesters = $allPlansGroupedBySemester->filter(function ($semester) {
+            return $semester['completed'];
+        });
+        $plannedSemesters   = $allPlansGroupedBySemester->filter(function ($semester) {
+            return !$semester['completed'];
+        });
 
         return pdf()->view('exportTemplate', [
-            'user_name' => "Daiqui Teixeira Inacio",
-            'user_code' => 123213123,
-            'completed_semesters' => $completed_semesters,
-            'planned_semesters' => $planned_semesters
+            'user_name' => $user->name,
+            'user_code' => $user->codpes,
+            'completed_semesters' => $completedSemesters,
+            'planned_semesters' => $plannedSemesters
         ])->name('export.pdf');
     }
 

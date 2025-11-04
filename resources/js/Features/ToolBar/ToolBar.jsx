@@ -81,10 +81,8 @@ function ToolBar() {
                     />
                     <IconWrapper Icon={FileDownloadOutlinedIcon}
                                 onClick={handleExport}
-                                disabled={true}
-                                toolTipText={"Exportar planejamento - Em manutenção"}
-                                // disabled={!user}
-                                // toolTipText={user ? "Exportar planejamento" : "Faça login para exportar o planejamento"}
+                                disabled={!user}
+                                toolTipText={user ? "Exportar planejamento" : "Faça login para exportar o planejamento"}
                                 /> 
                 </Stack>
             </Container>

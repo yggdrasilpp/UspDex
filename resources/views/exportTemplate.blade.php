@@ -136,60 +136,80 @@
         </div>
 
         <h2>Semestres completos</h2>
-        @foreach ($completed_semesters as $semester_id => $semester)
-        <div class='semester'>
-            <h2>Semestre {{ $semester_id }}</h2>
-            <table>
-                <tr>
-                    <th>Código</th>
-                    <th>Nome da Disciplina</th>
-                    <th>AU</th>
-                    <th>TR</th>
-                    <th>FREQ</th>
-                    <th>NOTA</th>
+            @foreach ($completed_semesters as $semester_id => $semester)
+            <div class='semester'>
+                <h2>Semestre {{ $semester_id }}</h2>
+                <table>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome da Disciplina</th>
+                        <th>AU</th>
+                        <th>TR</th>
+                    </tr>
+                    @php
+                        $total_au = 0;
+                        $total_tr = 0;
+                    @endphp
+                    @foreach ($semester as $key => $subject)
+                        @if (is_array($subject) && array_key_exists('code', $subject))
+                        @php
+                            $total_au += $subject['lecture_credits'];
+                            $total_tr += $subject['work_credits'];
+                        @endphp
+                        <tr>
+                            <td>{{ $subject['code'] }}</td>
+                            <td>{{ $subject['name'] }}</td>
+                            <td class="num">{{ $subject['lecture_credits'] }}</td>
+                            <td class="num">{{ $subject['work_credits'] }}</td>
+                        </tr>
+                        @endif
+                    @endforeach
+                <tr style="background-color: #fff !important;">
+                    <td colspan="2" style="text-align: left; font-weight: bold; background-color: #fff !important;">Créditos totais: {{ $semester['total_credits'] }}</td>
+                    <td class="num" style="font-weight: bold; background-color: #fff !important;">{{ $total_au }}</td>
+                    <td class="num" style="font-weight: bold; background-color: #fff !important;">{{ $total_tr }}</td>
                 </tr>
-                @foreach ($semester->slice(0, -1) as $subject)
-                <tr>
-                    <td>{{ $subject['code'] }}</td>
-                    <td>{{ $subject['name'] }}</td>
-                    <td class="num">{{ $subject['lecture_credits'] }}</td>
-                    <td class="num">{{ $subject['work_credits'] }}</td>
-                    <td class="num">100</td>
-                    <td class="num">5</td>
-                </tr>
-                @endforeach
-            </table>
-            <p>Créditos totais: {{ $semester['total_credits'] }}</p>
-        </div>
-        @endforeach
+                </table>
+            </div>
+            @endforeach
 
         <h2>Semestres planejados</h2>
-        @foreach ($planned_semesters as $semester_id => $semester)
-        <div class='semester'>
-            <h2>Semestre {{ $semester_id }}</h2>
-            <table>
-                <tr>
-                    <th>Código</th>
-                    <th>Nome da Disciplina</th>
-                    <th>AU</th>
-                    <th>TR</th>
-                    <th>FREQ</th>
-                    <th>NOTA</th>
+            @foreach ($planned_semesters as $semester_id => $semester)
+            <div class='semester'>
+                <h2>Semestre {{ $semester_id }}</h2>
+                <table>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome da Disciplina</th>
+                        <th>AU</th>
+                        <th>TR</th>
+                    </tr>
+                    @php
+                        $total_au = 0;
+                        $total_tr = 0;
+                    @endphp
+                    @foreach ($semester as $key => $subject)
+                        @if (is_array($subject) && array_key_exists('code', $subject))
+                        @php
+                            $total_au += $subject['lecture_credits'];
+                            $total_tr += $subject['work_credits'];
+                        @endphp
+                        <tr>
+                            <td>{{ $subject['code'] }}</td>
+                            <td>{{ $subject['name'] }}</td>
+                            <td class="num">{{ $subject['lecture_credits'] }}</td>
+                            <td class="num">{{ $subject['work_credits'] }}</td>
+                        </tr>
+                        @endif
+                    @endforeach
+                <tr style="background-color: #fff !important;">
+                    <td colspan="2" style="text-align: left; font-weight: bold; background-color: #fff !important;">Créditos totais: {{ $semester['total_credits'] }}</td>
+                    <td class="num" style="font-weight: bold; background-color: #fff !important;">{{ $total_au }}</td>
+                    <td class="num" style="font-weight: bold; background-color: #fff !important;">{{ $total_tr }}</td>
                 </tr>
-                @foreach ($semester->slice(0, -1) as $subject)
-                <tr>
-                    <td>{{ $subject['code'] }}</td>
-                    <td>{{ $subject['name'] }}</td>
-                    <td class="num">{{ $subject['lecture_credits'] }}</td>
-                    <td class="num">{{ $subject['work_credits'] }}</td>
-                    <td class="num">100</td>
-                    <td class="num">5</td>
-                </tr>
-                @endforeach
-            </table>
-            <p>Créditos totais: {{ $semester['total_credits'] }}</p>
-        </div>
-        @endforeach
+                </table>
+            </div>
+            @endforeach
     </div>
     <script>
         let canvas = document.getElementById('canvas');
