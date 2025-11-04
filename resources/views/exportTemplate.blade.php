@@ -145,8 +145,6 @@
                         <th>Nome da Disciplina</th>
                         <th>AU</th>
                         <th>TR</th>
-                        <!-- <th>FREQ</th>
-                        <th>NOTA</th> -->
                     </tr>
                     @php
                         $total_au = 0;
@@ -163,12 +161,9 @@
                             <td>{{ $subject['name'] }}</td>
                             <td class="num">{{ $subject['lecture_credits'] }}</td>
                             <td class="num">{{ $subject['work_credits'] }}</td>
-                            <!-- <td class="num">100</td>
-                            <td class="num">5</td> -->
                         </tr>
                         @endif
                     @endforeach
-                    <!-- Totals row removed as per user request -->
                 <tr style="background-color: #fff !important;">
                     <td colspan="2" style="text-align: left; font-weight: bold; background-color: #fff !important;">Créditos totais: {{ $semester['total_credits'] }}</td>
                     <td class="num" style="font-weight: bold; background-color: #fff !important;">{{ $total_au }}</td>
@@ -188,8 +183,6 @@
                         <th>Nome da Disciplina</th>
                         <th>AU</th>
                         <th>TR</th>
-                        <!-- <th>FREQ</th>
-                        <th>NOTA</th> -->
                     </tr>
                     @php
                         $total_au = 0;
@@ -206,12 +199,9 @@
                             <td>{{ $subject['name'] }}</td>
                             <td class="num">{{ $subject['lecture_credits'] }}</td>
                             <td class="num">{{ $subject['work_credits'] }}</td>
-                            <!-- <td class="num">100</td>
-                            <td class="num">5</td> -->
                         </tr>
                         @endif
                     @endforeach
-                    <!-- Totals row removed as per user request -->
                 <tr style="background-color: #fff !important;">
                     <td colspan="2" style="text-align: left; font-weight: bold; background-color: #fff !important;">Créditos totais: {{ $semester['total_credits'] }}</td>
                     <td class="num" style="font-weight: bold; background-color: #fff !important;">{{ $total_au }}</td>
